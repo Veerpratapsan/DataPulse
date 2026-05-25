@@ -69,11 +69,9 @@ export function SiteNav({ activeStep }: { activeStep?: 1 | 2 | 3 }) {
 export function SiteFooter() {
   return (
     <footer className="border-t border-stone-200/70 bg-background">
-      <div className="mx-auto max-w-6xl px-4 py-10 text-center sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 py-8 text-center sm:px-6 lg:px-8">
         <p className="text-[12px] leading-relaxed text-stone-400">
-          Hackathon Track 04 — AI Meets Data
-          <span className="mx-2 text-stone-300">·</span>
-          Preview build, no account required
+          &copy; {new Date().getFullYear()} DataPulse. All rights reserved.
         </p>
       </div>
     </footer>

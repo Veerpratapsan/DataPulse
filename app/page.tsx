@@ -153,7 +153,7 @@ export default function Home() {
 
   return (
     <SiteShell>
-      <SiteNav activeStep={1} />
+      <SiteNav />
 
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 sm:px-6 lg:px-8">
         {/* Hero — full viewport feel on mobile, compact on desktop */}
@@ -349,16 +349,30 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Soft CTA */}
-        <section className="border-t border-stone-200/60 py-12 text-center md:py-14">
-          <p className="text-sm text-stone-500">Ready when you are.</p>
-          <Button
-            onClick={scrollToUpload}
-            variant="outline"
-            className="mt-4 h-9 rounded-lg border-stone-200 text-stone-700 hover:bg-white"
-          >
-            Back to upload
-          </Button>
+        {/* Privacy & Trust Section */}
+        <section className="border-t border-stone-200/60 py-16 text-center">
+          <div className="mx-auto max-w-2xl px-4">
+            <h2 className="font-display text-xl font-semibold text-stone-900 sm:text-2xl">
+              Private & secure by design
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-stone-500">
+              DataPulse processes spreadsheets entirely inside your browser session. Your dataset is never uploaded to, stored on, or shared with external servers.
+            </p>
+            <div className="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-[13px] text-stone-550">
+              <span className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-teal-600" />
+                No server-side uploads
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-teal-600" />
+                No persistent cookies
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-teal-600" />
+                100% browser sandbox execution
+              </span>
+            </div>
+          </div>
         </section>
       </main>
 

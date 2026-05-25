@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
@@ -34,3 +35,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+=======
+# DataPulse
+DataPulse is an AI-powered data cleaning and enrichment tool. A user uploads a messy CSV or Excel file, the AI analyses it, flags every issue with a plain-English explanation and a confidence score, and the user accepts or rejects each fix before exporting a clean dataset alongside a full audit log.
+>>>>>>> 2c4d8191939b4b552d7d7b06095933605fb2756b
