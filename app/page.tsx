@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { SiteShell, SiteNav, SiteFooter } from "@/components/layout/site-shell";
 import { StepIndicator } from "@/components/layout/step-indicator";
 import { Upload, ShieldCheck, Zap, FileText, Check, ArrowRight } from "lucide-react";
+import { API_URL } from "@/lib/api";
 
 const HARDCODED_ISSUES = [
   {
@@ -104,7 +105,7 @@ export default function Home() {
           const formData = new FormData();
           formData.append("file", file);
 
-          const uploadRes = await fetch("http://localhost:8000/upload", {
+          const uploadRes = await fetch(`${API_URL}/upload`, {
             method: "POST",
             body: formData,
           });
@@ -123,7 +124,7 @@ export default function Home() {
           localStorage.setItem("dp_profile", JSON.stringify(profile));
 
           setLoadingMessage("AI profiling columns and scanning for patterns...");
-          const analyseRes = await fetch("http://localhost:8000/analyse", {
+          const analyseRes = await fetch(`${API_URL}/analyse`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

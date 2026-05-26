@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { SiteShell, SiteNav } from "@/components/layout/site-shell";
 import { StepIndicator } from "@/components/layout/step-indicator";
 import { getIssueBadgeClasses } from "@/lib/issue-styles";
+import { API_URL } from "@/lib/api";
 import { Check } from "lucide-react";
 
 interface Issue {
@@ -116,7 +117,7 @@ export default function IssuesPage() {
     };
 
     try {
-      const response = await fetch("http://localhost:8000/apply", {
+      const response = await fetch(`${API_URL}/apply`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
