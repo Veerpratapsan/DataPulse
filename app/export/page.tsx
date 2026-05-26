@@ -9,7 +9,6 @@ import { Badge } from "@/components/ui/badge";
 import { SiteShell, SiteNav, SiteFooter } from "@/components/layout/site-shell";
 import { StepIndicator } from "@/components/layout/step-indicator";
 import { getIssueBadgeClasses } from "@/lib/issue-styles";
-import { API_URL } from "@/lib/api";
 
 const FALLBACK_CHANGES = [
   {
@@ -40,6 +39,7 @@ const FALLBACK_CHANGES = [
 ];
 
 export default function ExportPage() {
+  const API = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
   const [auditData, setAuditData] = useState<Record<string, unknown> | null>(null);
   const [filename, setFilename] = useState<string>("test.csv");
@@ -134,7 +134,7 @@ export default function ExportPage() {
                 className="h-10 flex-1 rounded-lg bg-teal-800 text-sm font-medium hover:bg-teal-900"
               >
                 <a
-                  href={`${API_URL}/download/${cleanedFilename}`}
+                  href={API ? `${API}/download/${cleanedFilename}` : "#"}
                   download
                 >
                   Download clean {filename.toLowerCase().endsWith(".csv") ? "CSV" : "Excel"}

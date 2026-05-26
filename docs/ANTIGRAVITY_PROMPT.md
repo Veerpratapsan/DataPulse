@@ -62,7 +62,7 @@ Avoid: “Powered by cutting-edge AI”, “Transform your data journey”, excl
 ## Deliverables if generating new screens
 Match existing pages: / (home), /issues, /export
 Keep localStorage keys: dp_issues, dp_filename, dp_audit
-API: POST localhost:8000/apply, GET localhost:8000/download/{filename}
+API: `${process.env.NEXT_PUBLIC_API_URL}` — /upload, /analyse, /apply, /download/{filename}
 
 ## Reference files in repo
 - components/layout/site-shell.tsx (nav, footer, ambient bg)

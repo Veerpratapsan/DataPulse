@@ -8,45 +8,6 @@ import { Button } from "@/components/ui/button";
 import { SiteShell, SiteNav, SiteFooter } from "@/components/layout/site-shell";
 import { StepIndicator } from "@/components/layout/step-indicator";
 import { Upload, ShieldCheck, Zap, FileText, Check, ArrowRight } from "lucide-react";
-import { API_URL } from "@/lib/api";
-
-const HARDCODED_ISSUES = [
-  {
-    column: "country",
-    issue_type: "Format standardise",
-    description: "Mixed values found: US, USA, United States in the same column.",
-    suggested_fix: "Standardise all values to ISO 3166-1 alpha-2 two-letter codes.",
-    confidence: 0.97,
-  },
-  {
-    column: "email",
-    issue_type: "Null fill",
-    description: "34 missing values detected in the email column.",
-    suggested_fix: "Drop rows where email is null.",
-    confidence: 0.88,
-  },
-  {
-    column: "signup_date",
-    issue_type: "Type coerce",
-    description: "Dates are stored as plain strings in three different formats.",
-    suggested_fix: "Parse all values to ISO 8601 YYYY-MM-DD format.",
-    confidence: 0.95,
-  },
-  {
-    column: "user_id",
-    issue_type: "Duplicate flag",
-    description: "12 rows appear to be exact duplicates of other rows.",
-    suggested_fix: "Remove duplicate rows, keeping the first occurrence.",
-    confidence: 0.91,
-  },
-  {
-    column: "revenue",
-    issue_type: "Outlier flag",
-    description: "3 values are more than 4 standard deviations from the mean.",
-    suggested_fix: "Review these rows manually before deciding to remove them.",
-    confidence: 0.74,
-  },
-];
 
 const FEATURES = [
   {
@@ -100,12 +61,19 @@ export default function Home() {
   useEffect(() => {
     if (isLoading && file) {
       const uploadAndAnalyze = async () => {
+        const API = process.env.NEXT_PUBLIC_API_URL;
+        if (!API) {
+          alert("NEXT_PUBLIC_API_URL is not set. Add it in Vercel or .env.local.");
+          setIsLoading(false);
+          return;
+        }
+
         try {
           setLoadingMessage("Uploading your file...");
           const formData = new FormData();
           formData.append("file", file);
 
-          const uploadRes = await fetch(`${API_URL}/upload`, {
+          const uploadRes = await fetch(`${API}/upload`, {
             method: "POST",
             body: formData,
           });
@@ -124,20 +92,18 @@ export default function Home() {
           localStorage.setItem("dp_profile", JSON.stringify(profile));
 
           setLoadingMessage("AI profiling columns and scanning for patterns...");
-          const analyseRes = await fetch(`${API_URL}/analyse`, {
+          const analyseRes = await fetch(`${API}/analyse`, {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ profile }),
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ profile: uploadData.profile }),
           });
 
           if (!analyseRes.ok) {
             throw new Error(`Failed to analyze profile (HTTP ${analyseRes.status})`);
           }
 
-          const issues = await analyseRes.json();
-          localStorage.setItem("dp_issues", JSON.stringify(issues));
+          const analyseData = await analyseRes.json();
+          localStorage.setItem("dp_issues", JSON.stringify(analyseData));
 
           setIsLoading(false);
           router.push("/issues");

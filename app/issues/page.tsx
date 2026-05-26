@@ -9,7 +9,6 @@ import { Badge } from "@/components/ui/badge";
 import { SiteShell, SiteNav } from "@/components/layout/site-shell";
 import { StepIndicator } from "@/components/layout/step-indicator";
 import { getIssueBadgeClasses } from "@/lib/issue-styles";
-import { API_URL } from "@/lib/api";
 import { Check } from "lucide-react";
 
 interface Issue {
@@ -116,8 +115,15 @@ export default function IssuesPage() {
       },
     };
 
+    const API = process.env.NEXT_PUBLIC_API_URL;
+    if (!API) {
+      setApplyError("NEXT_PUBLIC_API_URL is not set.");
+      setIsApplying(false);
+      return;
+    }
+
     try {
-      const response = await fetch(`${API_URL}/apply`, {
+      const response = await fetch(`${API}/apply`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
