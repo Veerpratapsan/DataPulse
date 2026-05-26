@@ -136,7 +136,11 @@ async def apply_cleansing_fixes(req: ApplyRequest):
     
     cleaned_filename = f"cleaned_{req.filename}"
     cleaned_file_path = os.path.join(TMP_DIR, cleaned_filename)
-    cleaned_df.to_csv(cleaned_file_path, index=False)
+    
+    if ext in ['.xlsx', '.xls']:
+        cleaned_df.to_excel(cleaned_file_path, index=False)
+    else:
+        cleaned_df.to_csv(cleaned_file_path, index=False)
     
     return {
         "audit_log": audit_log,

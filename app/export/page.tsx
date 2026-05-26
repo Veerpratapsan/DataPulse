@@ -136,7 +136,7 @@ export default function ExportPage() {
                   href={`http://localhost:8000/download/${cleanedFilename}`}
                   download
                 >
-                  Download clean CSV
+                  Download clean {filename.toLowerCase().endsWith(".csv") ? "CSV" : "Excel"}
                 </a>
               </Button>
               <Button

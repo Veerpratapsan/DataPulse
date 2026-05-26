@@ -98,13 +98,56 @@ export default function Home() {
 
   useEffect(() => {
     if (isLoading && file) {
-      const timer = setTimeout(() => {
-        localStorage.setItem("dp_issues", JSON.stringify(HARDCODED_ISSUES));
-        localStorage.setItem("dp_filename", file.name);
-        setIsLoading(false);
-        router.push("/issues");
-      }, 3200);
-      return () => clearTimeout(timer);
+      const uploadAndAnalyze = async () => {
+        try {
+          setLoadingMessage("Uploading your file...");
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const uploadRes = await fetch("http://localhost:8000/upload", {
+            method: "POST",
+            body: formData,
+          });
+
+          if (!uploadRes.ok) {
+            throw new Error(`Failed to upload file (HTTP ${uploadRes.status})`);
+          }
+
+          const uploadData = await uploadRes.json();
+          if (uploadData.error) {
+            throw new Error(uploadData.error);
+          }
+
+          const { filename, profile } = uploadData;
+          localStorage.setItem("dp_filename", filename);
+          localStorage.setItem("dp_profile", JSON.stringify(profile));
+
+          setLoadingMessage("AI profiling columns and scanning for patterns...");
+          const analyseRes = await fetch("http://localhost:8000/analyse", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ profile }),
+          });
+
+          if (!analyseRes.ok) {
+            throw new Error(`Failed to analyze profile (HTTP ${analyseRes.status})`);
+          }
+
+          const issues = await analyseRes.json();
+          localStorage.setItem("dp_issues", JSON.stringify(issues));
+
+          setIsLoading(false);
+          router.push("/issues");
+        } catch (error: any) {
+          console.error("Analysis failed:", error);
+          alert(error.message || "Failed to analyze spreadsheet. Please ensure the backend server is running.");
+          setIsLoading(false);
+        }
+      };
+
+      uploadAndAnalyze();
     }
   }, [isLoading, file, router]);
 
